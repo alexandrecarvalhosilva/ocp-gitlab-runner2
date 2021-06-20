@@ -8,8 +8,7 @@ ARG GITLAB_RUNNER_VERSION
 ENV GITLAB_REPO=https://gitlab.com/gitlab-org/gitlab-runner.git \
     PATH=$PATH:/root/go/bin/
 
-RUN cd /home && \
-    dnf install -y git-core make go && \
+RUN dnf install -y git-core make go && \
     git clone --depth=1 --branch=${GITLAB_RUNNER_VERSION} ${GITLAB_REPO} && \
     cd gitlab-runner && \
     make runner-bin-host && \
@@ -20,9 +19,9 @@ FROM registry.access.redhat.com/ubi8-minimal:8.3
 
 ARG GITLAB_RUNNER_VERSION
 
-COPY --from=builder /home/gitlab-runner/out/binaries/gitlab-runner /usr/bin
+COPY --from=builder /gitlab-runner/out/binaries/gitlab-runner /usr/bin
 
-ENV HOME=/home/gitlab-runner
+ENV HOME=/gitlab-runner
 
 LABEL maintainer="Dmitry Misharov <misharov@redhat.com>" \
       version="$GITLAB_RUNNER_VERSION" \
