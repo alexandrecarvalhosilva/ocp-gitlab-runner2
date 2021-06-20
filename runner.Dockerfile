@@ -18,8 +18,7 @@ FROM registry.access.redhat.com/ubi8-micro:8.4
 COPY --from=builder  /usr/bin/curl /usr/bin
 
 
-RUN microdnf install curl && \
-    curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/rpm/gitlab-runner_amd64.rpm" && \
+RUN curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/rpm/gitlab-runner_amd64.rpm" && \
     rpm -i gitlab-runner_amd64.rpm && \
     gitlab-runner --version
 #ARG GITLAB_RUNNER_VERSION
