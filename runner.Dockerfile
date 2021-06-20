@@ -15,7 +15,7 @@
 #    out/binaries/gitlab-runner --version
 
 FROM registry.access.redhat.com/ubi8-micro:8.4
-RUN dnf install curl
+RUN dnf install curl && \
     curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/rpm/gitlab-runner_amd64.rpm" && \
     rpm -i gitlab-runner_amd64.rpm && \
     gitlab-runner --version
