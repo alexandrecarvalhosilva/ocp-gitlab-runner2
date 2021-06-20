@@ -8,7 +8,7 @@ ARG GITLAB_RUNNER_VERSION
 ENV GITLAB_REPO=https://gitlab.com/gitlab-org/gitlab-runner.git \
     PATH=$PATH:/root/go/bin/
 
-RUN mkdir /home/gitlab-runner
+RUN mkdir /home/gitlab-runner && \
     dnf install -y git-core make go && \
     git clone --depth=1 --branch=${GITLAB_RUNNER_VERSION} ${GITLAB_REPO} && \
     cd gitlab-runner && \
