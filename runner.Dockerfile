@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8:8.3 AS builder
+FROM registry.access.redhat.com/ubi8-micro:8.4
 ARG GITLAB_RUNNER_VERSION=v13.8.0
 
 ARG GITLAB_RUNNER_VERSION
