@@ -1,7 +1,5 @@
 FROM registry.access.redhat.com/ubi8:8.3 AS builder
-ARG GITLAB_RUNNER_VERSION=master
-
-
+ARG GITLAB_RUNNER_VERSION=v13.8.0
 
 ARG GITLAB_RUNNER_VERSION
 
@@ -11,20 +9,17 @@ ENV GITLAB_REPO=https://gitlab.com/gitlab-org/gitlab-runner.git \
 RUN dnf install -y git-core make go && \
     git clone --depth=1 --branch=${GITLAB_RUNNER_VERSION} ${GITLAB_REPO} && \
     cd gitlab-runner && \
-    pwd && \
-    pwd && \
-    pwd && \
     make runner-bin-host && \
     chmod a+x out/binaries/gitlab-runner && \
     out/binaries/gitlab-runner --version
 
 FROM registry.access.redhat.com/ubi8-minimal:8.3
-RUN mkdir /home/gitlab-runner
+
 ARG GITLAB_RUNNER_VERSION
 
 COPY --from=builder /gitlab-runner/out/binaries/gitlab-runner /usr/bin
 
-ENV HOME=/home/gitlab-runner
+ENV HOME=/gitlab-runner
 
 LABEL maintainer="Dmitry Misharov <misharov@redhat.com>" \
       version="$GITLAB_RUNNER_VERSION" \
