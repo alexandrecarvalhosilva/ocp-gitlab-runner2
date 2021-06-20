@@ -1,6 +1,7 @@
+FROM registry.access.redhat.com/ubi8:8.4 AS builder
 ARG GITLAB_RUNNER_VERSION=master
 
-FROM registry.access.redhat.com/ubi8:8.4 AS builder
+
 
 ARG GITLAB_RUNNER_VERSION
 
