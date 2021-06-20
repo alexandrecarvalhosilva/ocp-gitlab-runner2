@@ -8,7 +8,8 @@ ARG GITLAB_RUNNER_VERSION
 ENV GITLAB_REPO=https://gitlab.com/gitlab-org/gitlab-runner.git \
     PATH=$PATH:/root/go/bin/
 
-RUN dnf install -y git-core make go ncurses && \
+RUN cd /home && \
+    dnf install -y git-core make go ncurses && \
     git clone --depth=1 --branch=${GITLAB_RUNNER_VERSION} ${GITLAB_REPO} && \
     cd gitlab-runner && \
     make runner-bin-host && \
