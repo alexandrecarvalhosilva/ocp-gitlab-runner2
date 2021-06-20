@@ -1,4 +1,4 @@
-#FROM registry.access.redhat.com/ubi8:8.4 AS builder
+FROM registry.access.redhat.com/ubi8:8.4 AS builder
 
 #ARG GITLAB_RUNNER_VERSION=v13.8.0
 
@@ -15,6 +15,9 @@
 #    out/binaries/gitlab-runner --version
 
 FROM registry.access.redhat.com/ubi8-micro:8.4
+COPY --from=builder  /usr/bin/curl /usr/bin
+
+
 RUN microdnf install curl && \
     curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/rpm/gitlab-runner_amd64.rpm" && \
     rpm -i gitlab-runner_amd64.rpm && \
