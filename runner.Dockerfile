@@ -20,7 +20,7 @@ FROM registry.access.redhat.com/ubi8-minimal:8.3
 
 ARG GITLAB_RUNNER_VERSION
 
-COPY --from=builder /gitlab-runner/out/binaries/gitlab-runner /usr/bin
+COPY --from=builder /home/gitlab-runner/out/binaries/gitlab-runner /usr/bin
 
 ENV HOME=/home/gitlab-runner
 
