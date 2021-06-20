@@ -1,4 +1,5 @@
-FROM registry.access.redhat.com/ubi8-micro:8.4
+FROM registry.access.redhat.com/ubi8:8.4 AS builder
+
 ARG GITLAB_RUNNER_VERSION=v13.8.0
 
 ARG GITLAB_RUNNER_VERSION
@@ -14,9 +15,13 @@ RUN cd /home && \
     chmod a+x out/binaries/gitlab-runner && \
     out/binaries/gitlab-runner --version
 
+FROM registry.access.redhat.com/ubi8-micro:8.4
+
+ARG GITLAB_RUNNER_VERSION
+
 COPY --from=builder /gitlab-runner/out/binaries/gitlab-runner /usr/bin
 
-ENV HOME=/home/gitlab-runner
+ENV HOME=/etc/gitlab-runner/
 
 LABEL maintainer="Dmitry Misharov <misharov@redhat.com>" \
       version="$GITLAB_RUNNER_VERSION" \
