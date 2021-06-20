@@ -6,7 +6,8 @@ ARG GITLAB_RUNNER_VERSION
 ENV GITLAB_REPO=https://gitlab.com/gitlab-org/gitlab-runner.git \
     PATH=$PATH:/root/go/bin/
 
-RUN dnf install -y git-core make go && \
+RUN cd /home && \
+    dnf install -y git-core make go && \
     git clone --depth=1 --branch=${GITLAB_RUNNER_VERSION} ${GITLAB_REPO} && \
     cd gitlab-runner && \
     make runner-bin-host && \
@@ -15,7 +16,7 @@ RUN dnf install -y git-core make go && \
 
 COPY --from=builder /gitlab-runner/out/binaries/gitlab-runner /usr/bin
 
-ENV HOME=/gitlab-runner
+ENV HOME=/home/gitlab-runner
 
 LABEL maintainer="Dmitry Misharov <misharov@redhat.com>" \
       version="$GITLAB_RUNNER_VERSION" \
