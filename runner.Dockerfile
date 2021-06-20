@@ -13,10 +13,6 @@ RUN dnf install -y git-core make go && \
     chmod a+x out/binaries/gitlab-runner && \
     out/binaries/gitlab-runner --version
 
-FROM registry.access.redhat.com/ubi8-minimal:8.3
-
-ARG GITLAB_RUNNER_VERSION
-
 COPY --from=builder /gitlab-runner/out/binaries/gitlab-runner /usr/bin
 
 ENV HOME=/gitlab-runner
