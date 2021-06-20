@@ -26,8 +26,8 @@ RUN dnf install -y git curl git-core && \
 #RUN mkdir /home/gitlab-runner/
 #ENV HOME=/home/gitlab-runner/
 
-LABEL maintainer="Dmitry Misharov <misharov@redhat.com>" \
-      version="$GITLAB_RUNNER_VERSION" \
+LABEL maintainer="Alexandre Carvalho da Silva<alexandre@gandhiva.io>" \
+      version="latest" \
       io.openshift.tags="gitlab,ci,runner" \
       name="ocp-gitlab-runner" \
       io.k8s.display-name="GitLab runner" \
@@ -43,4 +43,4 @@ LABEL maintainer="Dmitry Misharov <misharov@redhat.com>" \
 
 #USER 1001
 
-CMD ["gitlab-runner", "run"]
+#CMD ["gitlab-runner", "run"]
