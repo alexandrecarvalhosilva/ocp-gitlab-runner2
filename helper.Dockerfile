@@ -16,7 +16,7 @@ RUN dnf install -y git-core make go && \
     out/binaries/gitlab-runner-helper/gitlab-runner-helper.x86_64 --version
 
 FROM registry.access.redhat.com/ubi8-minimal:8.3
-
+RUN mkdir /home/workspace
 ARG GITLAB_RUNNER_VERSION
 
 COPY --from=builder /gitlab-runner/out/binaries/gitlab-runner-helper/gitlab-runner-helper.x86_64 \
