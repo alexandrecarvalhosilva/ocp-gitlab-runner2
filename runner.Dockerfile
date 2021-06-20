@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8:8.4 AS builder
+#FROM registry.access.redhat.com/ubi8:8.4 AS builder
 
 #ARG GITLAB_RUNNER_VERSION=v13.8.0
 
@@ -14,13 +14,11 @@ FROM registry.access.redhat.com/ubi8:8.4 AS builder
 #    chmod a+x out/binaries/gitlab-runner && \
 #    out/binaries/gitlab-runner --version
 
-RUN dnf install -y git-core make go && \
-    curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/rpm/gitlab-runner_amd64.rpm" && \
-    rpm -i gitlab-runner_amd64.rpm
-
 FROM registry.access.redhat.com/ubi8-micro:8.4
-
-ARG GITLAB_RUNNER_VERSION
+RUN curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/rpm/gitlab-runner_amd64.rpm" && \
+    rpm -i gitlab-runner_amd64.rpm && \
+    gitlab-runner --version
+#ARG GITLAB_RUNNER_VERSION
 
 #COPY --from=builder /gitlab-runner/out/binaries/gitlab-runner /usr/bin
 #RUN mkdir /home/gitlab-runner/
