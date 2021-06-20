@@ -1,26 +1,30 @@
 FROM registry.access.redhat.com/ubi8:8.4 AS builder
 
-ARG GITLAB_RUNNER_VERSION=v13.8.0
+#ARG GITLAB_RUNNER_VERSION=v13.8.0
 
-ARG GITLAB_RUNNER_VERSION
+#ARG GITLAB_RUNNER_VERSION
 
-ENV GITLAB_REPO=https://gitlab.com/gitlab-org/gitlab-runner.git \
-    PATH=$PATH:/root/go/bin/
+#ENV GITLAB_REPO=https://gitlab.com/gitlab-org/gitlab-runner.git \
+#    PATH=$PATH:/root/go/bin/
+
+#RUN dnf install -y git-core make go && \
+#    git clone --depth=1 --branch=${GITLAB_RUNNER_VERSION} ${GITLAB_REPO} && \
+#    cd gitlab-runner && \
+#    make runner-bin-host && \
+#    chmod a+x out/binaries/gitlab-runner && \
+#    out/binaries/gitlab-runner --version
 
 RUN dnf install -y git-core make go && \
-    git clone --depth=1 --branch=${GITLAB_RUNNER_VERSION} ${GITLAB_REPO} && \
-    cd gitlab-runner && \
-    make runner-bin-host && \
-    chmod a+x out/binaries/gitlab-runner && \
-    out/binaries/gitlab-runner --version
+    curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/rpm/gitlab-runner_amd64.rpm" && \
+    rpm -i gitlab-runner_amd64.rpm
 
 FROM registry.access.redhat.com/ubi8-micro:8.4
 
 ARG GITLAB_RUNNER_VERSION
 
-COPY --from=builder /gitlab-runner/out/binaries/gitlab-runner /usr/bin
-
-ENV HOME=/etc/gitlab-runner/
+#COPY --from=builder /gitlab-runner/out/binaries/gitlab-runner /usr/bin
+#RUN mkdir /home/gitlab-runner/
+#ENV HOME=/home/gitlab-runner/
 
 LABEL maintainer="Dmitry Misharov <misharov@redhat.com>" \
       version="$GITLAB_RUNNER_VERSION" \
@@ -32,11 +36,11 @@ LABEL maintainer="Dmitry Misharov <misharov@redhat.com>" \
       io.k8s.description="A GitLab runner image designed to work in OpenShift." \
       url="https://github.com/RedHatQE/ocp-gitlab-runner"
 
-WORKDIR $HOME
+#WORKDIR $HOME
 
-RUN chgrp -R 0 $HOME && \
-    chmod -R g=u $HOME
+#RUN chgrp -R 0 $HOME && \
+#    chmod -R g=u $HOME
 
-USER 1001
+#USER 1001
 
 CMD ["gitlab-runner", "run"]
