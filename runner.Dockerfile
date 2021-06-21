@@ -3,12 +3,11 @@ FROM registry.access.redhat.com/ubi8:8.4
 RUN dnf install -y git curl git-core && \
     curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/rpm/gitlab-runner_amd64.rpm" && \
     rpm -i gitlab-runner_amd64.rpm && \
+    mkdir /home/gitlab-runner/ && \
     gitlab-runner --version
 #ARG GITLAB_RUNNER_VERSION
 
-#COPY --from=builder /gitlab-runner/out/binaries/gitlab-runner /usr/bin
-#RUN mkdir /home/gitlab-runner/
-#ENV HOME=/home/gitlab-runner/
+ENV HOME=/home/gitlab-runner/
 
 LABEL maintainer="Alexandre Carvalho da Silva<alexandre@gandhiva.io>" \
       version="latest" \
@@ -19,3 +18,4 @@ LABEL maintainer="Alexandre Carvalho da Silva<alexandre@gandhiva.io>" \
       description="A GitLab runner image designed to work in OpenShift." \
       io.k8s.description="A GitLab runner image designed to work in OpenShift." \
       url="https://github.com/RedHatQE/ocp-gitlab-runner"
+USER 1001
