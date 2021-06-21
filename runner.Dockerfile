@@ -1,4 +1,5 @@
-FROM registry.access.redhat.com/ubi8:8.4
+FROM registry.access.redhat.com/ubi8/ubi:latest
+
 
 RUN dnf install -y git curl git-core && \
     curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/rpm/gitlab-runner_amd64.rpm" && \
